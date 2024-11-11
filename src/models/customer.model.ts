@@ -3,15 +3,15 @@ import {Entity, model, property} from '@loopback/repository';
 @model({settings: {strict: false}})
 export class Customer extends Entity {
   @property({
-    type: 'string',
-    id: true,
-    generated: true,
+    type: 'string',  // name is not the primary key, keep it as a regular property
+    required: true,
   })
-  name?: string;
+  name: string;
 
   @property({
-    type: 'number',
-    required: true,
+    type: 'number',  // Ensure id is the primary key
+    id: true,
+    generated: true,  // Mark as auto-generated
   })
   id: number;
 
@@ -21,10 +21,7 @@ export class Customer extends Entity {
   })
   amount: number;
 
-  // Define well-known properties here
 
-  // Indexer property to allow additional data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [prop: string]: any;
 
   constructor(data?: Partial<Customer>) {
@@ -37,3 +34,4 @@ export interface CustomerRelations {
 }
 
 export type CustomerWithRelations = Customer & CustomerRelations;
+
